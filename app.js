@@ -9,11 +9,13 @@ const generatedHTML = require("./dist/generatedHTML")
 const inquirer = require("inquirer");
 const fs = require("fs");
 const jest = require("jest")
-
-let Team = [];
+// empty arrays to hold the data
+let managerArr = [];
+let engineerArr = [];
+let internArr = [];
 
 let managerCounter = 0;
-
+// array with all the questions and data
 const teamMembers = {
     
     Manager: [{
@@ -90,19 +92,20 @@ function start() {
         if (answer.addMember == "yes") {
             addRole();
         } else {
-            return writeToFile(generatedHTML(manager, engineer, intern));
-        console.log(manager, engineer, intern);
-        //return (manager, engineer, intern);
+            return writeToFile(generatedHTML(managerArr, engineerArr, internArr));
+        console.log(managerArr, engineerArr, internArr);
+        //this should return (manager, engineer, intern);
         };
     })
 }
+//this is the first prompt that will start the app if yes will open addRole if not will generate the html
 const addNew = {
     type: "List",
     message: "Do you want to add another employee? ",
     name: "addMember",
     choices: ["yes", "no"],
 }
-
+// this will allow only 1 manager but multiple engineers and managers
 function addRole() {
     inquirer.prompt([{
         type: "list",
@@ -116,7 +119,7 @@ function addRole() {
             inquirer.prompt(teamMembers.Manager).then((results) => {
 
                 const manager = new Manager(results.managerName, results.managerId, results.managerEmail, results.OfficeNumber);
-                Team.push(manager);
+                managerArr.push(manager);
                 start();
             })
         } else if (answer.employeeChoice === "Engineer") {
@@ -124,7 +127,7 @@ function addRole() {
             inquirer.prompt(teamMembers.Engineer).then((results) => {
 
                 const engineer = new Engineer(results.engineerName, results.engineerId, results.engineerEmail, results.Github);
-                Team.push(engineer);
+                engineerArr.push(engineer);
 
                 start();
             })
@@ -133,7 +136,7 @@ function addRole() {
             inquirer.prompt(teamMembers.Intern).then((results) => {
 
                 const intern = new Intern(results.internName, results.internId, results.internEmail, results.school);
-                Team.push(intern);
+                internArr.push(intern);
                 start();
             })
         } else {
@@ -142,7 +145,7 @@ function addRole() {
     })
 }
 start();
-
+// generate the html file in the dist folder
 function writeToFile(data){
     fs.writeFile("./dist/index.html", data, (error) => error ? console.log(error) : console.log("a index.html has been generated successfully."));
 };
