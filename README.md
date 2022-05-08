@@ -9,14 +9,14 @@ This application was created using node.js and by using inquirer and jest depend
 
 # Table of contents
 
-Instalation
-Usage
-License
-Test
-Technologies
-Contact
-Image link
-Video Link
+- Instalation
+- Usage
+- License
+- Test
+- Technologies
+- Contact
+- Image link
+- Video Link
 
 # Instalation
 
